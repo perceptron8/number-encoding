@@ -7,6 +7,12 @@ var encoder = function(type, endianess) {
 };
 
 describe("NumberEncoder", function() {
+	it("knows type, length and endianess", function() {
+		var encoder = new NumberEncoder("Int8");
+		expect(encoder.type).toEqual("Int8");
+		expect(encoder.length).toEqual(1);
+		expect(encoder.littleEndian).toEqual(false);
+	});
 	it("encodes Int8", function() {
 		expect(encoder("Int8", false).encode(1)).toEqual(new Uint8Array([0x01]));
 		expect(encoder("Int8", true).encode(1)).toEqual(new Uint8Array([0x01]));
