@@ -1,6 +1,6 @@
 {
   "name" : "number-encoding",
-  "description" : "NumberEncoder/NumberDecoder with API similar to TextEncoder/TextDecoder"
+  "description" : "NumberEncoder/NumberDecoder with API similar to TextEncoder/TextDecoder",
   "version" : "0.0.1",
   "engines" : ">=0.12"
 }
