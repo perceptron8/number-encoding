@@ -16,6 +16,6 @@ var decoder = new NumberDecoder("Float64");
 var number = decoder.decode(bytes);
 ```
 
-Credits
+See also
 -------
-See https://encoding.spec.whatwg.org/
+https://encoding.spec.whatwg.org/
