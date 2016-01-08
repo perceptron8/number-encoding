@@ -19,6 +19,25 @@ var makeFloat = function(byteLength, littleEndian) {
 	return array;
 }
 
+var toNodeBuffer = function(array) {
+	return new Buffer(array);
+};
+
+var toTypedArray = function(array) {
+	return new Uint8Array(array);
+};
+
+var toArrayBuffer = function(array) {
+	var typedArray = Uint8Array.from(array);
+	return typedArray.buffer;
+};
+
+var toDataView = function(array) {
+	var padded = Uint8Array.from([].concat([0xff], array, [0xff]));
+	var view = new DataView(padded.buffer, 1, array.length);
+	return view;
+};
+
 var LENGTH = {
 	"Int": [1, 2, 4],
 	"Uint": [1, 2, 4],
@@ -37,9 +56,10 @@ describe("NumberCoder", function() {
 			var type = typePrefix + (byteLength << 3);
 			for (var littleEndian of [false, true]) {
 				var array = CREATOR[typePrefix](byteLength, littleEndian);
-				var typedArray = Uint8Array.from(array);
-				var arrayBuffer = typedArray.buffer;
-				var dataView = new DataView(arrayBuffer);
+				var nodeBuffer = toNodeBuffer(array);
+				var typedArray = toTypedArray(array);
+				var arrayBuffer = toArrayBuffer(array);
+				var dataView = toDataView(array);
 				var coder = new NumberCoder(type, littleEndian);
 				it("encodes " + type + " with littleEndian = " + littleEndian, function() {
 					// knows itself
@@ -54,6 +74,10 @@ describe("NumberCoder", function() {
 					expect(coder.decode(typedArray)).toEqual(1);
 					expect(coder.decode(arrayBuffer)).toEqual(1);
 					expect(coder.decode(dataView)).toEqual(1);
+					// decodes so well
+					if (Buffer !== undefined) {
+						expect(coder.decode(nodeBuffer)).toEqual(1);
+					}
 					// throws accordingly
 					expect(coder.decode.bind(coder, null)).toThrow();
 					expect(coder.decode.bind(coder, array)).toThrow();
