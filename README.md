@@ -16,7 +16,7 @@ let bytes = encoder.encode(number);
 
 let bytes = ...;
 let decoder = new NumberDecoder("Float64");
-lest number = decoder.decode(bytes);
+let number = decoder.decode(bytes);
 ```
 
 See also
