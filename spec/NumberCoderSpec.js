@@ -1,16 +1,16 @@
 "use strict";
 
-var NumberCoder = require("../lib/NumberCoder");
+const NumberCoder = require("../lib/NumberCoder");
 
-var makeInt = function(byteLength, littleEndian) {
-	var array = new Array(byteLength).fill(0);
-	var index = littleEndian ? 0 : byteLength - 1;
+function makeInt(byteLength, littleEndian) {
+	const array = new Array(byteLength).fill(0);
+	const index = littleEndian ? 0 : byteLength - 1;
 	array[index] = 0x01;
 	return array;
 }
 
-var makeFloat = function(byteLength, littleEndian) {
-	var array = byteLength == 4
+function makeFloat(byteLength, littleEndian) {
+	const array = byteLength == 4
 		? [0x3f, 0x80, 0x00, 0x00]
 		: [0x3f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
 	if (littleEndian) {
@@ -19,49 +19,45 @@ var makeFloat = function(byteLength, littleEndian) {
 	return array;
 }
 
-var toNodeBuffer = function(array) {
-	return new Buffer(array);
+const toNodeBuffer = array => new Buffer(array);
+const toTypedArray = array => new Uint8Array(array);
+
+const toArrayBuffer = array => {
+	const typedArray = Uint8Array.from(array);
+	const buffer = typedArray.buffer;
+	return buffer;
 };
 
-var toTypedArray = function(array) {
-	return new Uint8Array(array);
-};
-
-var toArrayBuffer = function(array) {
-	var typedArray = Uint8Array.from(array);
-	return typedArray.buffer;
-};
-
-var toDataView = function(array) {
-	var padded = Uint8Array.from([].concat([0xff], array, [0xff]));
-	var view = new DataView(padded.buffer, 1, array.length);
+const toDataView = array => {
+	const padded = Uint8Array.from([].concat([0xff], array, [0xff]));
+	const view = new DataView(padded.buffer, 1, array.length);
 	return view;
 };
 
-var LENGTH = {
+const LENGTH = {
 	"Int": [1, 2, 4],
 	"Uint": [1, 2, 4],
 	"Float": [4, 8]
 };
 
-var CREATOR = {
+const CREATOR = {
 	"Int": makeInt,
 	"Uint": makeInt,
 	"Float": makeFloat
 };
 
 describe("NumberCoder", function() {
-	for (var typePrefix of ["Int", "Uint", "Float"]) {
-		for (var byteLength of LENGTH[typePrefix]) {
-			var type = typePrefix + (byteLength << 3);
-			for (var littleEndian of [false, true]) {
-				var array = CREATOR[typePrefix](byteLength, littleEndian);
-				var nodeBuffer = toNodeBuffer(array);
-				var typedArray = toTypedArray(array);
-				var arrayBuffer = toArrayBuffer(array);
-				var dataView = toDataView(array);
-				var coder = new NumberCoder(type, littleEndian);
-				it("encodes " + type + " with littleEndian = " + littleEndian, function() {
+	for (let typePrefix of ["Int", "Uint", "Float"]) {
+		for (let byteLength of LENGTH[typePrefix]) {
+			const type = typePrefix + (byteLength << 3);
+			for (let littleEndian of [false, true]) {
+				const array = CREATOR[typePrefix](byteLength, littleEndian);
+				const nodeBuffer = toNodeBuffer(array);
+				const typedArray = toTypedArray(array);
+				const arrayBuffer = toArrayBuffer(array);
+				const dataView = toDataView(array);
+				const coder = new NumberCoder(type, littleEndian);
+				it("encodes " + type + " with littleEndian = " + littleEndian, () => {
 					// knows itself
 					expect(coder.type).toEqual(type);
 					expect(coder.length).toEqual(byteLength);

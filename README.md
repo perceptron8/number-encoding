@@ -10,13 +10,13 @@ Usage
 -----
 
 ```
-var number = ...;
-var encoder = new NumberEncoder("Int16");
-var bytes = encoder.encode(number);
+let number = ...;
+let encoder = new NumberEncoder("Int16");
+let bytes = encoder.encode(number);
 
-var bytes = ...;
-var decoder = new NumberDecoder("Float64");
-var number = decoder.decode(bytes);
+let bytes = ...;
+let decoder = new NumberDecoder("Float64");
+lest number = decoder.decode(bytes);
 ```
 
 See also
