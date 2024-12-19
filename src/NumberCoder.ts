@@ -2,7 +2,7 @@ import { NumberDecoder } from "./NumberDecoder.js";
 import { NumberEncoder } from "./NumberEncoder.js";
 import { assert } from "./utils/assert.js";
 
-function length(type: string) {
+function length(type: string): number {
 	// @ts-ignore
 	const array = globalThis[type + "Array"];
 	assert(typeof array === "function");
@@ -11,14 +11,14 @@ function length(type: string) {
 	return length;
 }
 
-function getter(type: string) {
+function getter(type: string): Function {
 	// @ts-ignore
 	const getter = DataView.prototype["get" + type];
 	assert(typeof getter === "function");
 	return getter;
 }
 
-function setter(type: string) {
+function setter(type: string): Function {
 	// @ts-ignore
 	const setter = DataView.prototype["set" + type];
 	assert(typeof setter === "function");
@@ -26,11 +26,17 @@ function setter(type: string) {
 }
 
 function view(data: ArrayBuffer | ArrayBufferView): DataView {
-	if (data instanceof ArrayBuffer) {
+	if (data instanceof DataView) {
+		// fast path
+		return data;
+	} else if (data instanceof ArrayBuffer) {
+		// slow path #1
 		return new DataView(data);
 	} else if (ArrayBuffer.isView(data)) {
+		// slow path #2
 		return new DataView(data.buffer, data.byteOffset, data.byteLength);
 	} else {
+		// path of pain
 		throw new Error("The provided value must be an instance of ArrayBuffer or ArrayBufferView");
 	}
 }
@@ -41,7 +47,7 @@ export class NumberCoder implements NumberEncoder, NumberDecoder {
 	readonly #getter: Function;
 	readonly #setter: Function;
 	readonly littleEndian: boolean;
-	
+
 	constructor(type: string, littleEndian: boolean) {
 		this.type = type;
 		this.length = length(type);
@@ -49,7 +55,7 @@ export class NumberCoder implements NumberEncoder, NumberDecoder {
 		this.#setter = setter(type);
 		this.littleEndian = littleEndian;
 	}
-	
+
 	encode(number: number): Uint8Array {
 		assert(typeof number === "number", "The provided value must be a number");
 		const buffer = new ArrayBuffer(this.length);
