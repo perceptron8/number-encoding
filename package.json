@@ -1,6 +1,24 @@
 {
-  "name" : "number-encoding",
-  "description" : "NumberEncoder/NumberDecoder with API similar to TextEncoder/TextDecoder",
-  "version" : "0.0.2",
-  "engines" : ">=8.5.0"
+	"name": "number-encoding",
+	"description": "NumberEncoder/NumberDecoder with API similar to TextEncoder/TextDecoder",
+	"version": "0.1.0",
+	"type": "module",
+	"exports": "./lib/index.js",
+	"dependencies": {
+		"typescript": "^5.7.2"
+	},
+	"devDependencies": {
+		"@types/chai": "^5.0.1",
+		"@types/node": "^22.10.2",
+		"chai": "^5.1.2",
+		"tsx": "^4.19.2"
+	},
+	"engines": {
+		"node": ">=22.0.0"
+	},
+	"packageManager": "yarn@1.22.22",
+	"scripts": {
+		"postinstall": "npx tsc",
+		"test": "node --test --import tsx './test/**/*.spec.ts'"
+	}
 }
