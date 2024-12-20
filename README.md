@@ -24,6 +24,12 @@ const decoder = new NumberDecoder("Uint32");
 const number = decoder.decode(bytes);
 ```
 
+supported "types":
+
+- `"Int8"`, `"Int16"`, `"Int32"`
+- `"Uint8"`, `"Uint16"`, `"Uint32"`
+- `"Float32"`, `"Float64"`
+
 See also
 -------
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray
