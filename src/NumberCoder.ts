@@ -48,12 +48,12 @@ export class NumberCoder implements NumberEncoder, NumberDecoder {
 	readonly #setter: Function;
 	readonly littleEndian: boolean;
 
-	constructor(type: string, littleEndian: boolean) {
+	constructor(type: string, littleEndian?: boolean) {
 		this.type = type;
 		this.length = length(type);
 		this.#getter = getter(type);
 		this.#setter = setter(type);
-		this.littleEndian = littleEndian;
+		this.littleEndian = littleEndian ?? false;
 	}
 
 	encode(number: number): Uint8Array {
