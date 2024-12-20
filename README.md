@@ -10,17 +10,17 @@ Usage
 
 encoding:
 
-```
+```ts
 const number = ...;
-const encoder = new NumberEncoder("Int16");
+const encoder = new NumberEncoder("Uint32");
 const bytes = encoder.encode(number);
 ```
 
 decoding:
 
-```
+```ts
 const bytes = ...;
-const decoder = new NumberDecoder("Float64");
+const decoder = new NumberDecoder("Uint32");
 const number = decoder.decode(bytes);
 ```
 
