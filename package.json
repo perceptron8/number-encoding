@@ -5,20 +5,19 @@
 	"type": "module",
 	"exports": "./lib/index.js",
 	"dependencies": {
-		"typescript": "^5.7.2"
+		"typescript": "5.9.3"
 	},
 	"devDependencies": {
-		"@types/chai": "^5.0.1",
-		"@types/node": "^22.10.2",
-		"chai": "^5.1.2",
-		"tsx": "^4.19.2"
+		"@types/chai": "5.2.3",
+		"@types/node": "24.10.0",
+		"chai": "6.2.0",
+		"tsx": "4.20.6"
 	},
 	"engines": {
-		"node": ">=22.0.0"
+		"node": ">=24.0.0"
 	},
-	"packageManager": "yarn@1.22.22",
 	"scripts": {
-		"postinstall": "npx tsc",
+		"postinstall": "tsc",
 		"test": "node --test --import tsx './test/**/*.spec.ts'"
 	}
 }
