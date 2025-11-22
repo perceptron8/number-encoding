@@ -17,7 +17,7 @@
 		"node": ">=24.0.0"
 	},
 	"scripts": {
-		"prepare": "tsc",
+		"compile": "tsc",
 		"test": "node --test --import tsx './test/**/*.spec.ts'"
 	}
 }
