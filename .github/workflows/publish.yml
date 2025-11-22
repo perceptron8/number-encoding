@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: 24
           registry-url: https://npm.pkg.github.com/
+          scope: '@perceptron'
       - run: npm install
       - run: npm run compile
       - run: npm run test
