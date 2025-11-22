@@ -1,5 +1,5 @@
 {
-	"name": "@perceptron/number-encoding",
+	"name": "@perceptron8/number-encoding",
 	"description": "NumberEncoder/NumberDecoder with API similar to TextEncoder/TextDecoder",
 	"version": "0.1.0",
 	"type": "module",
